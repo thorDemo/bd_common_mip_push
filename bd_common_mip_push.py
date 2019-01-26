@@ -34,6 +34,7 @@ def push_url(thread_num, site, token, config):
     array_path = []
     array_number = []
     # 读取配置文件
+    https = int(config.get('article', 'https'))
     for num in range(1, 15):
         try:
             list_path = config.get('article', 'path%s' % num)
@@ -43,7 +44,7 @@ def push_url(thread_num, site, token, config):
         array_number.append(number)
         array_path.append(list_path)
     for num in range(0, len(array_path)):
-        _thread.start_new_thread(create_all_urls, (thread_num, site, array_path[num], array_number[num], token))
+        _thread.start_new_thread(create_all_urls, (thread_num, site, array_path[num], array_number[num], token, https))
         time.sleep(1)
 
 
@@ -75,15 +76,21 @@ def post_all_url(thread_num, domain, token, target_path, post_list):
 
 
 # 生成推送链接
-def create_all_urls(thread_num, site, post_list, post_num, token):
+def create_all_urls(thread_num, site, post_list, post_num, token, https):
     this_num = int(str(post_num).split(',')[thread_num - 1])
     target_path = 'url/cache/%s_%s_%s.txt' % (thread_num, post_list, str(site).replace('.', '_'))
     post_url = open(target_path, 'w+', encoding='utf-8')
     now_time = datetime.now().strftime('%Y%m%d')  # 现在
-    for num in range(0, this_num):
-        value = rand_char()
-        target_url = 'http://' + site + '/' + post_list + '/' + now_time + value + '.html\n'
-        post_url.write(target_url)
+    if https == 1:
+        for num in range(0, this_num):
+            value = rand_char()
+            target_url = 'https://' + site + '/' + post_list + '/' + now_time + value + '.html\n'
+            post_url.write(target_url)
+    else:
+        for num in range(0, this_num):
+            value = rand_char()
+            target_url = 'http://' + site + '/' + post_list + '/' + now_time + value + '.html\n'
+            post_url.write(target_url)
     post_url.close()
     post_all_url(thread_num, site, token, target_path, post_list)
 
