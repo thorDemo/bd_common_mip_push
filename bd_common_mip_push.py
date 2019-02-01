@@ -14,6 +14,8 @@ def parse_config(config_path):
     timer_controller_1 = config.get('article', 'timer_controller_1')
     timer_controller_2 = config.get('article', 'timer_controller_2')
     timer_controller_3 = config.get('article', 'timer_controller_3')
+    timer_controller_4 = config.get('article', 'timer_controller_4')
+    timer_controller_5 = config.get('article', 'timer_controller_5')
     site = config.get('article', 'site')
     token = config.get('article', 'token')
     rand_all = int(config.get('article', 'rand_all'))
@@ -27,6 +29,10 @@ def parse_config(config_path):
             _thread.start_new_thread(push_url, (2, site, token, config))
         if time_now == timer_controller_3:
             _thread.start_new_thread(push_url, (3, site, token, config))
+        if time_now == timer_controller_4:
+            _thread.start_new_thread(push_url, (4, site, token, config))
+        if time_now == timer_controller_5:
+            _thread.start_new_thread(push_url, (5, site, token, config))
 
 
 def push_url(thread_num, site, token, config):
