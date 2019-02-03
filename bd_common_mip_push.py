@@ -84,7 +84,7 @@ def post_all_url(thread_num, domain, token, target_path, post_list):
 # 生成推送链接
 def create_all_urls(thread_num, site, post_list, post_num, token, https):
     this_num = int(str(post_num).split(',')[thread_num - 1])
-    target_path = 'url/cache/%s_%s_%s.txt' % (thread_num, post_list, str(site).replace('.', '_'))
+    target_path = 'url/cache/%s_%s_%s.txt' % (thread_num, post_list.replace('/', '_'), str(site).replace('.', '_'))
     post_url = open(target_path, 'w+', encoding='utf-8')
     now_time = datetime.now().strftime('%Y%m%d')  # 现在
     if https == 1:
