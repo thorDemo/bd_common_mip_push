@@ -25,7 +25,7 @@ for line in domain:
             push1_time = "19:00:00"
             push1_time_obj = datetime.datetime.strptime(push1_time, '%H:%M:%S')
             _push5 = (push1_time_obj + datetime.timedelta(seconds=randint(0, 7200))).strftime("%H:%M:%S")
-            result_line = config_line.replace('www.abs114.com', fan_domain)
+            result_line = config_line.replace('www.lyghtsy.com', fan_domain)
             result_line = result_line.replace('00:00:00', _push1)
             result_line = result_line.replace('11:00:00', _push2)
             result_line = result_line.replace('13:00:00', _push3)
