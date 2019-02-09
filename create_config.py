@@ -2,7 +2,7 @@ import datetime
 from random import randint
 
 domain = open('model/domain.txt', 'r', encoding='utf-8')
-fans = ['www', 'mip']
+fans = ['www', 'mip', 'feel', 'seem', 'how', 'high']
 for line in domain:
     for fan in fans:
         fan_domain = '%s.%s' % (fan.strip(), line.strip())
