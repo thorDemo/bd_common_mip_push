@@ -6,6 +6,8 @@ import _thread
 import subprocess
 from random import sample
 import sys
+from random import randint
+from random import uniform
 
 
 def parse_config(config_path):
@@ -81,6 +83,16 @@ def post_all_url(thread_num, domain, token, target_path, post_list):
         time.sleep(3)
 
 
+def rand_pick(seq, probabilities):
+    x = uniform(0, 1)
+    cumprob = 0.0
+    for item , item_pro in zip(seq, probabilities):
+        cumprob += item_pro
+        if x < cumprob:
+            break
+        return item
+
+
 # 生成推送链接
 def create_all_urls(thread_num, site, post_list, post_num, token, https):
     this_num = int(str(post_num).split(',')[thread_num - 1])
@@ -89,16 +101,34 @@ def create_all_urls(thread_num, site, post_list, post_num, token, https):
     now_time = datetime.now().strftime('%Y%m%d')  # 现在
     if https == 1:
         for num in range(0, this_num):
-            value = rand_char()
-            target_url = 'https://' + site + '/' + post_list + '/' + now_time + value + '.html\n'
-            post_url.write(target_url)
+            jug = rand_pick([1, 2, 3], [0.6, 0.35, 0.05])
+            if jug == 1:
+                value = rand_char()
+                target_url = 'https://' + site + '/' + post_list + '/' + now_time + value + '.html\n'
+                post_url.write(target_url)
+            elif jug == 2:
+                target_url = 'https://' + site + '/\n'
+                post_url.write(target_url)
+            elif jug == 3:
+                value = rand_char()
+                target_url = 'https://' + site + '/' + value + '/\n'
+                post_url.write(target_url)
     else:
         for num in range(0, this_num):
-            value = rand_char()
-            target_url = 'http://' + site + '/' + post_list + '/' + now_time + value + '.html\n'
-            post_url.write(target_url)
+            jug = rand_pick([1, 2, 3], [0.6, 0.35, 0.05])
+            if jug == 1:
+                value = rand_char()
+                target_url = 'http://' + site + '/' + post_list + '/' + now_time + value + '.html\n'
+                post_url.write(target_url)
+            elif jug == 2:
+                target_url = 'http://' + site + '/\n'
+                post_url.write(target_url)
+            elif jug == 3:
+                value = rand_char()
+                target_url = 'http://' + site + '/' + value + '/\n'
+                post_url.write(target_url)
     post_url.close()
-    post_all_url(thread_num, site, token, target_path, post_list)
+    # post_all_url(thread_num, site, token, target_path, post_list)
 
 
 def print_time():
